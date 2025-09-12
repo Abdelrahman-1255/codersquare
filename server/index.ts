@@ -1,6 +1,7 @@
-import express, { RequestHandler } from "express";
+import express, { ErrorRequestHandler, RequestHandler } from "express";
 import { db } from "./datastore";
 import { createPostHandler, listPostHandler } from "./handlers/postHandlers";
+import e from "express";
 
 const app = express();
 
@@ -13,8 +14,16 @@ const requsetLoggerMiddleware: RequestHandler = (req, res, next) => {
 
 app.use(requsetLoggerMiddleware);
 
-app.get("/posts", listPostHandler);
+app.get("/v1/posts", listPostHandler);
 
-app.post("/posts", createPostHandler);
+app.post("/v1/posts", createPostHandler);
+
+const erroHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.error(err);
+  console.log("opps! unexpected error", err);
+  next();
+};
+
+app.use(erroHandler);
 
 app.listen(3000);

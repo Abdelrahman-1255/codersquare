@@ -1,5 +1,6 @@
 import express, { RequestHandler } from "express";
 import { db } from "./datastore";
+import { createPostHandler, listPostHandler } from "./handlers/postHandlers";
 
 const app = express();
 
@@ -12,14 +13,8 @@ const requsetLoggerMiddleware: RequestHandler = (req, res, next) => {
 
 app.use(requsetLoggerMiddleware);
 
-app.get("/posts", (req, res) => {
-  res.send({ posts: db.listPosts() });
-});
+app.get("/posts", listPostHandler);
 
-app.post("/posts", (req, res) => {
-  const post = req.body;
-  db.createPost(post);
-  res.status(201).send();
-});
+app.post("/posts", createPostHandler);
 
 app.listen(3000);

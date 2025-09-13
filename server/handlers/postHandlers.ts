@@ -6,11 +6,14 @@ import { createPostRequest, createPostResponse, ListPostsRequest, ListPostsRespo
 
 export type ExpressHandler<Req, Res> = RequestHandler<string, Partial<Res>, Partial<Req>, any>;
 
-export const listPostHandler: ExpressHandler<ListPostsRequest, ListPostsResponse> = (req, res) => {
-  res.send({ posts: db.listPosts() });
+export const listPostHandler: ExpressHandler<ListPostsRequest, ListPostsResponse> = async (
+  req,
+  res
+) => {
+  res.send({ posts: await db.listPosts() });
 };
 
-export const createPostHandler: ExpressHandler<createPostRequest, createPostResponse> = (
+export const createPostHandler: ExpressHandler<createPostRequest, createPostResponse> = async (
   req,
   res
 ) => {
@@ -25,6 +28,6 @@ export const createPostHandler: ExpressHandler<createPostRequest, createPostResp
     url: req.body.url,
     userId: req.body.userId,
   };
-  db.createPost(post);
+  await db.createPost(post);
   res.sendStatus(200);
 };

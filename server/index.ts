@@ -1,27 +1,31 @@
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
-import { db } from './datastore';
 import { createPostHandler, listPostHandler } from './handlers/postHandlers';
+import { initDb } from './datastore';
 
-const app = express();
+(async () => {
+  await initDb();
 
-app.use(express.json());
+  const app = express();
 
-const requsetLoggerMiddleware: RequestHandler = (req, res, next) => {
-  console.log(req.method, req.path, 'body', req.body);
-  next();
-};
+  app.use(express.json());
 
-app.use(requsetLoggerMiddleware);
+  const requsetLoggerMiddleware: RequestHandler = (req, res, next) => {
+    console.log(req.method, req.path, 'body', req.body);
+    next();
+  };
 
-app.get('/v1/posts', listPostHandler);
+  app.use(requsetLoggerMiddleware);
 
-app.post('/v1/posts', createPostHandler);
+  app.get('/v1/posts', listPostHandler);
 
-const erroHandler: ErrorRequestHandler = (err, req, res, next) => {
-  console.error(err);
-  console.log('opps! unexpected error', err);
-};
+  app.post('/v1/posts', createPostHandler);
 
-app.use(erroHandler);
+  const erroHandler: ErrorRequestHandler = (err, req, res, next) => {
+    console.error(err);
+    console.log('opps! unexpected error', err);
+  };
 
-app.listen(3000);
+  app.use(erroHandler);
+
+  app.listen(3000);
+})();

@@ -1,10 +1,8 @@
-import { RequestHandler } from 'express';
+import { ExpressHandler } from '../types';
 import { db } from '../datastore';
 import { Post } from '../types';
 import crypto from 'crypto';
 import { createPostRequest, createPostResponse, ListPostsRequest, ListPostsResponse } from '../api';
-
-export type ExpressHandler<Req, Res> = RequestHandler<string, Partial<Res>, Partial<Req>, any>;
 
 export const listPostHandler: ExpressHandler<ListPostsRequest, ListPostsResponse> = async (
   req,

@@ -2,7 +2,7 @@ CREATE TABLE users (
     id TEXT PRIMARY KEY,
     firstName TEXT NOT NULL,
     lastName TEXT NOT NULL,
-    userName TEXT UNIQUE NOT NULL,
+    username TEXT UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL
 );

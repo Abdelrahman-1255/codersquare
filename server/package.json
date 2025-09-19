@@ -2,9 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon --exec tsx index.ts"
+    "dev": "nodemon --exec tsx server.ts"
   },
   "author": "",
   "license": "ISC",

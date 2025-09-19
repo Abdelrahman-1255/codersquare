@@ -2,6 +2,8 @@ import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { createPostHandler, listPostHandler } from './handlers/postHandlers';
 import { initDb } from './datastore';
 import { signInHandler, signUpHandler } from './handlers/userHandler';
+import { requsetLoggerMiddleware } from './middleware/loggerMiddleware';
+import { erroHandler } from './middleware/errorMiddleware';
 
 (async () => {
   await initDb();
@@ -10,17 +12,7 @@ import { signInHandler, signUpHandler } from './handlers/userHandler';
 
   app.use(express.json());
 
-  const erroHandler: ErrorRequestHandler = (err, req, res, next) => {
-    console.error(err);
-    console.log('opps! unexpected error', err);
-  };
-
   app.use(erroHandler);
-
-  const requsetLoggerMiddleware: RequestHandler = (req, res, next) => {
-    console.log(req.method, req.path, 'body', req.body);
-    next();
-  };
 
   app.use(requsetLoggerMiddleware);
 

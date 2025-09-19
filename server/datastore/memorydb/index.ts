@@ -14,6 +14,9 @@ export class InMemoryDatastore implements Datastore {
   getUserByEmail(email: string): Promise<User | undefined> {
     return Promise.resolve(this.users.find(u => u.email === email));
   }
+  getUserById(id: string): Promise<User | undefined> {
+    return Promise.resolve(this.users.find(u => u.id === id));
+  }
   getUserByUsername(email: string): Promise<User | undefined> {
     return Promise.resolve(this.users.find(u => u.username === email));
   }

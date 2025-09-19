@@ -8,6 +8,7 @@ export const listPostHandler: ExpressHandler<ListPostsRequest, ListPostsResponse
   req,
   res
 ) => {
+  console.log(req.headers.authorization);
   res.send({ posts: await db.listPosts() });
 };
 
@@ -15,7 +16,7 @@ export const createPostHandler: ExpressHandler<createPostRequest, createPostResp
   req,
   res
 ) => {
-  if (!req.body.title || !req.body.url || !req.body.userId) {
+  if (!req.body.title || !req.body.url || !req.body?.userId) {
     return res.sendStatus(400);
   }
 

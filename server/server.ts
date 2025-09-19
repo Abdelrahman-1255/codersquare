@@ -1,12 +1,15 @@
 import express, { ErrorRequestHandler, RequestHandler } from 'express';
-import { createPostHandler, listPostHandler } from './handlers/postHandlers';
+import { createPostHandler, listPostHandler } from './handlers/postHandler';
 import { initDb } from './datastore';
-import { signInHandler, signUpHandler } from './handlers/userHandler';
+import { signInHandler, signUpHandler } from './handlers/authHandler';
 import { requsetLoggerMiddleware } from './middleware/loggerMiddleware';
 import { erroHandler } from './middleware/errorMiddleware';
+import dotenv from 'dotenv';
+import { authMiddleware } from './middleware/authMiddleware';
 
 (async () => {
   await initDb();
+  dotenv.config();
 
   const app = express();
 
@@ -16,12 +19,13 @@ import { erroHandler } from './middleware/errorMiddleware';
 
   app.use(requsetLoggerMiddleware);
 
-  app.get('/v1/posts', listPostHandler);
-
-  app.post('/v1/posts', createPostHandler);
-
   app.post('/v1/signup', signUpHandler);
   app.post('/v1/signip', signInHandler);
+
+  app.use(authMiddleware);
+
+  app.get('/v1/posts', listPostHandler);
+  app.post('/v1/posts', createPostHandler);
 
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {

@@ -7,85 +7,93 @@ export class InMemoryDB implements DataStore {
     private comments: Comment[] = [];
     private likes: Like[] = [];
 
-    createUser(user: User): void {
+    createUser(user: User): Promise<void> {
         this.users.push(user);
+        return Promise.resolve();
     }
-    getUserByEmail(email: string): User | undefined {
-        return this.users.find(user => user.email === email);
+    getUserByEmail(email: string): Promise<User | undefined> {
+        return Promise.resolve(this.users.find(user => user.email === email));
     }
-    getUserByUsername(username: string): User | undefined {
-        return this.users.find(user => user.username === username);
+    getUserByUsername(username: string): Promise<User | undefined> {
+        return Promise.resolve(this.users.find(user => user.username === username));
     }
-    updateUser(id: string, user: Partial<User>): User | null {
+    updateUser(id: string, user: Partial<User>): Promise<User | null> {
         const existingUser = this.users.find(user => user.id === id);
         if (existingUser) {
             Object.assign(existingUser, user);
-            return existingUser;
+            return Promise.resolve(existingUser);
         }
-        return null;
+        return Promise.resolve(null);
     }
-    deleteUser(id: string): void {
+    deleteUser(id: string): Promise<void> {
         const userIndex = this.users.findIndex(user => user.id === id);
         if (userIndex !== -1) {
             this.users.splice(userIndex, 1);
         }
+        return Promise.resolve();
     }
-    createPost(post: Post): void {
+    createPost(post: Post): Promise<void> {
         this.posts.push(post);
+        return Promise.resolve();
     }
-    listPosts(): Post[] {
-        return this.posts;
+    listPosts(): Promise<Post[]> {
+        return Promise.resolve(this.posts);
     }
-    getPostById(id: string): Post | undefined {
-        return this.posts.find(post => post.id === id);
+    getPostById(id: string): Promise<Post | null> {
+        return Promise.resolve(this.posts.find(post => post.id === id) ?? null);
     }
-    getPostsByAuthorId(authorId: string): Post[] {
-        return this.posts.filter(post => post.userId === authorId);
+    getPostsByAuthorId(authorId: string): Promise<Post[]> {
+        return Promise.resolve(this.posts.filter(post => post.userId === authorId));
     }
-    updatePost(id: string, post: Partial<Post>): Post | null {
+    updatePost(id: string, post: Partial<Post>): Promise<Post | null> {
         const existingPost = this.posts.find(p => p.id === id);
         if (existingPost) {
             Object.assign(existingPost, post);
-            return existingPost;
+            return Promise.resolve(existingPost);
         }
-        return null;
+        return Promise.resolve(null);
     }
-    deletePost(id: string): void {
+    deletePost(id: string): Promise<void> {
         const postIndex = this.posts.findIndex(post => post.id === id);
         if (postIndex !== -1) {
             this.posts.splice(postIndex, 1);
         }
+        return Promise.resolve();
     }
-    createComment(comment: Comment): void {
+    createComment(comment: Comment): Promise<void> {
         this.comments.push(comment);
+        return Promise.resolve();
     }
-    getCommentsByPostId(postId: string): Comment[] {
-        return this.comments.filter(comment => comment.postId === postId);
+    getCommentsByPostId(postId: string): Promise<Comment[]> {
+        return Promise.resolve(this.comments.filter(comment => comment.postId === postId));
     }
-    updateComment(id: string, comment: Partial<Comment>): Comment | null {
+    updateComment(id: string, comment: Partial<Comment>): Promise<Comment | null> {
         const existingComment = this.comments.find(c => c.id === id);
         if (existingComment) {
             Object.assign(existingComment, comment);
-            return existingComment;
+            return Promise.resolve(existingComment);
         }
-        return null;
+        return Promise.resolve(null);
     }
-    deleteComment(id: string): void {
+    deleteComment(id: string): Promise<void> {
        const commentIndex = this.comments.findIndex(comment => comment.id === id);
        if (commentIndex !== -1) {
            this.comments.splice(commentIndex, 1);
        }
+       return Promise.resolve();
     }
-    addLike(like: Like): void {
+    addLike(like: Like): Promise<void> {
         this.likes.push(like);
+        return Promise.resolve();
     }
-    removeLike(likeId: string): void {
+    removeLike(likeId: string): Promise<void> {
         const likeIndex = this.likes.findIndex(like => like.id === likeId);
         if (likeIndex !== -1) {
             this.likes.splice(likeIndex, 1);
         }
+        return Promise.resolve();
     }
-    getLikesByPostId(postId: string): Like[] {
-        return this.likes.filter(like => like.postId === postId);
+    getLikesByPostId(postId: string): Promise<Like[]> {
+        return Promise.resolve(this.likes.filter(like => like.postId === postId));
     }
 }

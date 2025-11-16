@@ -4,13 +4,13 @@ import type { Post, ExpressHandler } from "../types";
 import crypto from "crypto";
 
 
-const getPostsHandler: ExpressHandler<GetPostsRequest, GetPostsResponse> = (req, res) => {
-  const posts = db.listPosts();
-  res.send({ posts: posts });
+const getPostsHandler: ExpressHandler<GetPostsRequest, GetPostsResponse> = async (req, res) => {
+  const posts = await db.listPosts();
+  res.send({ posts });
 };
 
 
-const createPostHandler: ExpressHandler<CreatePostRequest, CreatePostResponse> = (req, res) => {
+const createPostHandler: ExpressHandler<CreatePostRequest, CreatePostResponse> = async (req, res) => {
   if(!req.body.title || !req.body.url || !req.body.userId) {
     res.status(400).send({ error: "Invalid post data" });
     return;
@@ -22,7 +22,7 @@ const createPostHandler: ExpressHandler<CreatePostRequest, CreatePostResponse> =
     userId: req.body.userId!,
     postedAt: Date.now(),
   }
-  db.createPost(newPost);
+  await db.createPost(newPost);
   res.status(201).send({ post: newPost });
 };
 

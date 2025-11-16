@@ -1,9 +1,9 @@
 import { Post } from "../types";
 export interface PostDao {
-  createPost(post: Post): void;
-  listPosts(): Post[];
-  getPostById(id: string): Post | null;
-  getPostsByAuthorId(authorId: string): Post[];
-  updatePost(id: string, post: Partial<Post>): Post | null;
-  deletePost(id: string): void;
+  createPost(post: Post): Promise<void>;
+  listPosts(): Promise<Post[]>;
+  getPostById(id: string): Promise<Post | null>;
+  getPostsByAuthorId(authorId: string): Promise<Post[]>;
+  updatePost(id: string, post: Partial<Post>): Promise<Post | null>;
+  deletePost(id: string): Promise<void>;
 }

@@ -1,8 +1,8 @@
 import { User } from '../types';
 export interface UserDao {
-  createUser(user: User): void;
-  getUserByEmail(email: string): User | undefined;
-  getUserByUsername(username: string): User | undefined;
-  updateUser(id: string, user: Partial<User>): User | null;
-  deleteUser(id: string): void;
+  createUser(user: User): Promise<void>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  updateUser(id: string, user: Partial<User>): Promise<User | null>;
+  deleteUser(id: string): Promise<void>;
 }

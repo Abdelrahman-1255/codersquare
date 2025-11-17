@@ -11,7 +11,7 @@ const getPostsHandler: ExpressHandler<GetPostsRequest, GetPostsResponse> = async
 
 
 const createPostHandler: ExpressHandler<CreatePostRequest, CreatePostResponse> = async (req, res) => {
-  if(!req.body.title || !req.body.url || !req.body.userId) {
+  if(!req.body.title || !req.body.url) {
     res.status(400).send({ error: "Invalid post data" });
     return;
   }
@@ -19,7 +19,7 @@ const createPostHandler: ExpressHandler<CreatePostRequest, CreatePostResponse> =
     id: crypto.randomUUID(),
     title: req.body.title!,
     url: req.body.url!,
-    userId: req.body.userId!,
+    userId: res.locals.userId!,
     postedAt: Date.now(),
   }
   await db.createPost(newPost);

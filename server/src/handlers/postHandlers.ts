@@ -23,7 +23,7 @@ const createPostHandler: ExpressHandler<CreatePostRequest, CreatePostResponse> =
     postedAt: Date.now(),
   }
   await db.createPost(newPost);
-  res.status(201).send({ post: newPost });
+  res.status(201).send({ });
 };
 
 export { getPostsHandler, createPostHandler };

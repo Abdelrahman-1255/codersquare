@@ -17,6 +17,9 @@ export class InMemoryDB implements DataStore {
     getUserByUsername(username: string): Promise<User | undefined> {
         return Promise.resolve(this.users.find(user => user.username === username));
     }
+    getUserById(id: string): Promise<User | undefined> {
+        return Promise.resolve(this.users.find(user => user.id === id));
+    }
     updateUser(id: string, user: Partial<User>): Promise<User | null> {
         const existingUser = this.users.find(user => user.id === id);
         if (existingUser) {

@@ -22,7 +22,7 @@ app.use(requestLogger);
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
-
+app.get('/healthz', (req, res) => res.send({status: 'ok'}));
 app.post('/v1/signup', asyncHandler(signUpHandler as any));
 
 app.post('/v1/signin', asyncHandler(signInHandler as any));
